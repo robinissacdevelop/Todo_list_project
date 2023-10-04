@@ -34,12 +34,19 @@ class login {
                 // Verify the entered password using password_verify
                 if (password_verify($pass, $hashedPassword)) {
                     // Password is correct
+                    // Generate a unique token
+                    $token = bin2hex(random_bytes(32)); // Generate a random token
+                    // Store the token in the database
+                    $userId = $row['id'];
+                    $this->storeTokenInDatabase($userId, $token);
+                    // Set the token in a cookie or session
+                    $_SESSION['token'] = $token;
                     $_SESSION['username'] = $user;
-                    header("location: Tasks.php");
+                    header("location: cookie.php");
                     exit(); // Added exit to prevent further execution
                 } else {
                     // Password is incorrect
-                    echo "Login failed <a href='\htdocs\todolistproject\login.php'>Login again</a>";
+                    echo "Login failed <a href='login.php'>Login again</a>";
                 }
             } else {
                 // User does not exist
@@ -47,6 +54,14 @@ class login {
             }
             $stmt->close();
         }
+    }
+
+    private function storeTokenInDatabase($userId, $token) {
+        // Store the token in the database for the user
+        $stmt = $this->conn->prepare("INSERT INTO sessions (user_id, token) VALUES (?, ?)");
+        $stmt->bind_param("ss", $userId, $token);
+        $stmt->execute();
+        $stmt->close();
     }
 }
 

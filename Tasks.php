@@ -1,50 +1,91 @@
-<?php
-class Dashboard {
-    private $cookieName = "user";
-    private $expireTime = 86400; // 24 hours in seconds
+<!DOCTYPE html>
+<html lang="en">
 
-    public function __construct() {
-        session_start();
-        if (!isset($_SESSION['username'])) {
-            header('location: login.php');
-            exit();
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
-        $this->setCookie();
-    }
 
-    private function setCookie() {
-        $cookieValue = $_SESSION['username'];
-        setcookie($this->cookieName, $cookieValue, time() + $this->expireTime, "/");
-    }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    public function displayDashboard() {
-        ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dashboard</title>
-        </head>
-        <body>
-            <h3>Welcome, user <?php echo $_SESSION['username']; ?></h3>
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-            <?php
-            if (!isset($_COOKIE[$this->cookieName])) {
-                echo "The cookie '" . $this->cookieName . "' is not set.";
-            } else {
-                echo "Cookie '" . $this->cookieName . "' is set!<br>";
-                echo "Value is: " . $_COOKIE[$this->cookieName];
-            }
-            ?>
+        .task-list {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
-            <a href="logout.php">Logout</a>
-        </body>
-        </html>
-        <?php
-    }
-}
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-$dashboard = new Dashboard();
-$dashboard->displayDashboard();
-?>
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        li button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="task-list">
+            <input type="text" id="taskInput" placeholder="Add a new task">
+            <button id="addTaskBtn">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
