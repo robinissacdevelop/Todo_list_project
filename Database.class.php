@@ -6,10 +6,10 @@ ini_set('display_errors', 1);
 class Database {
     
     // User details
-    public $ID;
+    /*public $ID;
     public $username;
     public $password;
-    public $email;
+    public $email;*/
 
     public static function DB_connect(){
         $conn = mysqli_connect("localhost", "root", "", "todo_db");
@@ -18,6 +18,7 @@ class Database {
         }
         //echo "Connected ";
         return $conn;
+        
     }
     
 }
