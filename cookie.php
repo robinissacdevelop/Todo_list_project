@@ -30,7 +30,7 @@ class Dashboard {
         </head>
         <body>
             <h3>Welcome, user <?php echo htmlspecialchars($_SESSION['username']); ?></h3>
-            <a href="Tasks.php">click here see the tasks</a>
+            <a href="tasks.php">click here see the tasks</a>
             <?php
 
             /*if (!isset($_COOKIE[$this->cookieName])) {
@@ -38,10 +38,10 @@ class Dashboard {
             } else {
                 echo "Cookie '" . htmlspecialchars($this->cookieName) . "' is set!<br>";
                 echo "Value is: " . htmlspecialchars($_SESSION['username']);
-            }*/
-            ?>
-
+            }
             <a href="logout.php">Logout</a>
+            */
+            ?>
         </body>
         </html>
         <?php
