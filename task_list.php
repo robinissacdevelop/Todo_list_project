@@ -147,12 +147,42 @@ $result = $stmt->get_result();
                 echo "Title: " . $row['title'] . "<br>";
                 echo "Description: " . $row['description'] . "<br>";
                 echo "Due Date: " . $row['due_date'] . "<br>";
+                echo "<button class='deleteTask' data-taskid='" . $row['id'] . "'>Delete</button>";
                 echo "</li>";
             }
             ?>
         </ul>
     </div>
     <a href="logout.php">logout</a>
+    <!-- JavaScript for task deletion -->
+    <script>
+        const deleteButtons = document.querySelectorAll('.deleteTask');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const taskId = this.getAttribute('data-taskid');
+                // Send an AJAX request to delete the task
+                fetch('delete_task.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ task_id: taskId }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Task deleted successfully, remove it from the list
+                        this.parentNode.remove();
+                    } else {
+                        // Handle errors or show an error message
+                    }
+                })
+                .catch(error => {
+                    // Handle network errors
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
