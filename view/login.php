@@ -77,7 +77,7 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <form method="POST" action="loginvalid.php">
+        <form method="POST" action="/todolistproject/controler/loginvalid.php">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -91,7 +91,7 @@
             </div>
         </form>
         <div class="signup-link">
-            <p>Don't have an account? <a href="/todolistproject/signup.php">Sign up here</a></p>
+            <p>Don't have an account? <a href="signup.php">Sign up here</a></p>
         </div>
     </div>
 </body>

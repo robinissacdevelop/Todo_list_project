@@ -1,6 +1,7 @@
 
 <?php
-require_once '/xampp/htdocs/todolistproject/Database.class.php';
+require_once "/xampp/htdocs/todolistproject/models/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Session.class.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -52,7 +53,7 @@ class signup
                 $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashedPassword')";
 
                 if ($this->conn->query($sql) === TRUE) {
-                    echo "New record created successfully. <a href='/todolistproject/login.php'>Now login here</a>";
+                    echo "New record created successfully. <a href='/todolistproject/view/login.php'>Now login here</a>";
                 } else {
                     echo "Error: " . $sql . "<br>" . $this->conn->error;
                 }

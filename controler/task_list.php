@@ -1,6 +1,6 @@
 <?php
-require_once "/xampp/htdocs/todolistproject/Session.class.php";
-require_once "/xampp/htdocs/todolistproject/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Session.class.php";
 
 // Start the session
 Session::start();
@@ -124,7 +124,18 @@ $result = $stmt->get_result();
         font-style: italic;
         color: #999;
     }
-
+    .completed-button {
+            background-color: #3498db; /* Initial color (blue) */
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .completed-button.completed {
+            background-color: #4CAF50; /* Completed color (green) */
+        }
     </style>
 </head>
 
@@ -137,52 +148,42 @@ $result = $stmt->get_result();
             <h4>To-Do List</h4>
         </center>
         <div class="task-list">
-            <a href="tasks.php" style="display: block; margin:0 auto;"><button id="addTaskBtn">Add</button></a>
+            <a href="/todolistproject/view/tasks.php" style="display: block; margin:0 auto; text-decoration:none;"><button id="addTaskBtn">Add</button></a>
         </div>
         <ul id="taskList">
             <?php
-            // Display the tasks in a list
             while ($row = $result->fetch_assoc()) {
                 echo "<li>";
                 echo "Title: " . $row['title'] . "<br>";
                 echo "Description: " . $row['description'] . "<br>";
                 echo "Due Date: " . $row['due_date'] . "<br>";
-                echo "<button class='deleteTask' data-taskid='" . $row['id'] . "'>Delete</button>";
+                echo "<button style='background-color: #ff0000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;'><a href='?del_task=" . $row['id'] . "' style='text-decoration: none; color: #fff;'>Delete</a></button>";
+                //echo "<button><a href='?del_task=" . $row['id'] . "'>Delete</a></button>";
+                echo '<button class="completed-button" id="completeButton" onclick="markCompleted()">Task Completed</button>';
                 echo "</li>";
+            }
+            if (isset($_GET['del_task'])) {
+                $id = $_GET['del_task'];
+                $delete_stmt = $conn->prepare("DELETE FROM tasks WHERE id = ?");
+                $delete_stmt->bind_param("i", $id);
+                if ($delete_stmt->execute()) {
+                    // Task deleted successfully
+                    header("Location: task_list.php"); // Redirect to the same page or desired page
+                } else {
+                    echo "Error deleting task: " . $delete_stmt->error;
+                }
             }
             ?>
         </ul>
     </div>
-    <a href="logout.php">logout</a>
-    <!-- JavaScript for task deletion -->
     <script>
-        const deleteButtons = document.querySelectorAll('.deleteTask');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const taskId = this.getAttribute('data-taskid');
-                // Send an AJAX request to delete the task
-                fetch('delete_task.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ task_id: taskId }),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Task deleted successfully, remove it from the list
-                        this.parentNode.remove();
-                    } else {
-                        // Handle errors or show an error message
-                    }
-                })
-                .catch(error => {
-                    // Handle network errors
-                });
-            });
-        });
+        // JavaScript function to toggle the "completed" class
+        function markCompleted() {
+            const button = document.getElementById('completeButton');
+            button.classList.toggle('completed');
+        }
     </script>
+    <a href="/todolistproject/controler/logout.php">logout</a>
 </body>
 
 </html>

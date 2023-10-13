@@ -1,6 +1,7 @@
 <?php
-require_once "/xampp/htdocs/todolistproject/Database.class.php"; // Import the Database class
-require_once "/xampp/htdocs/todolistproject/Session.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Session.class.php";
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 Session::start();
@@ -42,7 +43,7 @@ class login {
                     // Set the token in a cookie or session
                     $_SESSION['token'] = $token;
                     $_SESSION['username'] = $user;
-                    header("location: cookie.php");
+                    header("location: /todolistproject/view/cookie.php");
                     exit(); // Added exit to prevent further execution
                 } else {
                     // Password is incorrect

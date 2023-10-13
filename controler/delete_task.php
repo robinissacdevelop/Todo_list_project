@@ -1,7 +1,6 @@
 <?php
-
-require_once "/xampp/htdocs/todolistproject/Session.class.php";
-require_once "/xampp/htdocs/todolistproject/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Session.class.php";
 
 // Start the session
 Session::start();

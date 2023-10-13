@@ -1,6 +1,6 @@
 <?php
-require_once "/xampp/htdocs/todolistproject/Database.class.php";
-require_once "/xampp/htdocs/todolistproject/Session.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Database.class.php";
+require_once "/xampp/htdocs/todolistproject/models/Session.class.php";
 
 Session::start();
 
@@ -64,7 +64,7 @@ class create_task {
             // Execute the SQL statement
             if ($stmt->execute()) {
                 // Task created successfully
-                header("Location: task_list.php"); // Redirect to the task list page
+                header("Location: /todolistproject/controler/task_list.php"); // Redirect to the task list page
                 exit();
             } else {
                 // Handle the error (e.g., display an error message)
